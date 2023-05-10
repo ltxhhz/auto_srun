@@ -1,7 +1,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.auto_srun">
-   <application
-        android:label="auto_srun"
+    <!-- 查看WLAN连接 -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <!-- 查看网络连接 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- 拥有完全的网络访问权限 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <application
+        android:label="深澜认证"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

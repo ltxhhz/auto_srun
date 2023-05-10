@@ -1,6 +1,8 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:package_info_plus/package_info_plus.dart';
+
 import '../config.dart';
 import './log_output.dart';
 
@@ -9,6 +11,7 @@ class Utils {
 
   static Future init() async {
     storage = await SharedPreferences.getInstance();
+    Config.packageInfo = await PackageInfo.fromPlatform();
   }
 
   static Logger? _logger;

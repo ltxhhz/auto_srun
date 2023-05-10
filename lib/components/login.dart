@@ -40,7 +40,6 @@ class Login extends StatelessWidget {
       }
     });
     return Container(
-      width: 150.w,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(10),

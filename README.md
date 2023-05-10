@@ -4,6 +4,15 @@
 
 ## 🚀 开始使用
 
+- 前往[release](/ltxhhz/auto_srun/release)下载最新版本安装。
+- 软件内，先将认证的网址填入后进行获取配置，获取成功后才可登录。
+- 如不放心可自行构建。
+
+## ❤️参与开发
+
+- 当前软件逻辑只对我自己的学校网络环境进行了适配，如有好的想法欢迎 issue & pr
+- 作者即将毕业，随缘更新。
+
 ### 前置条件
 
 - Flutter 环境：请确保已经安装 Flutter 开发环境，并正确配置了 Flutter SDK 和相关依赖。
@@ -13,7 +22,7 @@
 1. 克隆本项目到本地：
 
    ```bash
-   git clone https://github.com/username/repo.git
+   git clone https://github.com/ltxhhz/auto_srun.git
    ```
 
 2. 进入项目根目录执行以下命令：

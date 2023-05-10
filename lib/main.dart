@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: '自动登录',
+      title: '深澜认证',
       theme: ThemeData(
         primarySwatch: Colors.green,
       ),

@@ -13,7 +13,6 @@ class Status extends StatelessWidget {
   Widget build(BuildContext context) {
     final user = context.read<UserProvider>();
     return Container(
-      width: 150.w,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(10),
