@@ -50,6 +50,7 @@ class UserProvider extends ChangeNotifier {
 
   set autoLogin(bool e) {
     _autoLogin = e;
+    Utils.storage.setBool('autoLogin', e);
     notifyListeners();
   }
 
