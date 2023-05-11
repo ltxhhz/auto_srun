@@ -42,18 +42,18 @@ class HomePage extends StatelessWidget {
                 builder: (context, value, child) => UserAccountsDrawerHeader(accountName: Text(value.item1.isEmpty ? 'user' : value.item1), accountEmail: Text('余额 ${value.item2 ?? '未知'}')),
                 selector: (p0, p1) => Tuple2(p1.username, p1.result?.wallerBalance),
               ),
-              ListTile(
-                leading: const Icon(Icons.settings),
-                title: const Text('设置'),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const SettingPage(),
-                    ),
-                  );
-                },
-              ),
+              // ListTile(
+              //   leading: const Icon(Icons.settings),
+              //   title: const Text('设置'),
+              //   onTap: () {
+              //     Navigator.push(
+              //       context,
+              //       MaterialPageRoute(
+              //         builder: (context) => const SettingPage(),
+              //       ),
+              //     );
+              //   },
+              // ),
               AboutPageListTile(
                 icon: const Icon(Icons.info),
                 values: {

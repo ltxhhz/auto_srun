@@ -23,7 +23,7 @@ class Login extends StatelessWidget {
     user.url0 = urlController.text = url;
     if (url.isNotEmpty) {
       try {
-        Config.portal = Map.from(jsonDecode(Utils.storage.getString('portal')!));
+        user.portal0 = Map.from(jsonDecode(Utils.storage.getString('portal')!));
       } catch (e) {
         Utils.logger.e(e);
       }

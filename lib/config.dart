@@ -5,6 +5,5 @@ class Config {
   static bool isDebugMode = kDebugMode;
   static bool showLog = false;
   static List<String> logs = [];
-  static Map<String, Object> portal = {};
   static late final PackageInfo packageInfo;
 }

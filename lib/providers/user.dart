@@ -57,10 +57,16 @@ class UserProvider extends ChangeNotifier {
     _autoLogin = e;
   }
 
-  Map<String, Object> get portal => Config.portal;
+  Map<String, Object> _portal = {};
+
+  Map<String, Object> get portal => _portal;
   set portal(Map<String, Object> e) {
-    Config.portal = e;
+    _portal = e;
     notifyListeners();
+  }
+
+  set portal0(Map<String, Object> e) {
+    _portal = e;
   }
 
   Future saveAccount() async {

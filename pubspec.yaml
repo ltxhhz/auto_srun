@@ -49,6 +49,7 @@ dependencies:
   version: ^3.0.2
   about: ^2.1.3
   url_launcher: ^6.1.11
+  window_manager: ^0.3.2
 
 dev_dependencies:
   flutter_test:
