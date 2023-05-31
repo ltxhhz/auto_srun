@@ -33,12 +33,12 @@ class Result {
     isSuccess = obj['error'] == 'ok';
     msgCode = _toPascal(obj[isSuccess ? 'suc_msg' : 'error_msg']) ?? obj['res'];
     if (isSuccess) {
-      username = obj['username'];
-      clientIp = obj['client_ip'];
-      onlineIp = obj['online_ip'];
-      wallerBalance = obj['wallet_balance'];
-      accessToken = obj['access_token'];
-      sysVersion = obj['sysver'];
+      username = obj['username'] ?? '';
+      clientIp = obj['client_ip'] ?? '';
+      onlineIp = obj['online_ip'] ?? '';
+      wallerBalance = obj['wallet_balance'] ?? 0;
+      accessToken = obj['access_token'] ?? '';
+      sysVersion = obj['sysver'] ?? '';
     }
     srunVersion = obj['srun_ver'];
     message = translate[msgCode] ?? msgCode;
@@ -48,6 +48,9 @@ class Result {
   String? _toPascal(String? str) {
     if (str == null) {
       return null;
+    }
+    if (str.contains(':')) {
+      return str.split(':')[0];
     }
     return str.replaceAllMapped(RegExp(r'(?<=^|\_)(\w)'), (match) => match.group(0)!.toUpperCase()).replaceAll('_', '');
   }

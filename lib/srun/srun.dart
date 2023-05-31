@@ -65,13 +65,13 @@ class SRun {
 
   Future<Result> login() async {
     ip = await _getIP();
-    assert(ip.isNotEmpty, '获取ip失败，${_errInfo.isEmpty ? '请检查网络' : _errInfo}');
+    assert(ip.isNotEmpty && ip != 'error', '获取ip失败，${_errInfo.isEmpty ? '请检查网络' : _errInfo}');
     token = await _getToken();
-    assert(token.isNotEmpty, '获取token失败，${_errInfo.isEmpty ? '请检查网络' : _errInfo}');
+    assert(token.isNotEmpty && ip != 'error', '获取token失败，${_errInfo.isEmpty ? '请检查网络' : _errInfo}');
     i = '{SRBX1}${base.encode(xEncode(_getInfo(), token))}';
     _complex();
     final res = await _send();
-    assert(res.isNotEmpty, '获取token失败，${_errInfo.isEmpty ? '请检查网络' : _errInfo}');
+    assert(res.isNotEmpty && ip != 'error', '获取token失败，${_errInfo.isEmpty ? '请检查网络' : _errInfo}');
     Utils.logger.i(res);
     return Result(res);
   }

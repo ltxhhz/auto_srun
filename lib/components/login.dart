@@ -1,6 +1,8 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:bot_toast/bot_toast.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -9,8 +11,10 @@ import 'package:tuple/tuple.dart';
 
 import '../utils/utils.dart';
 import '../providers/user.dart';
-import '../config.dart';
 import '../srun/srun.dart';
+
+StreamSubscription<ConnectivityResult>? _subscription;
+bool _isLogged = false;
 
 class Login extends StatelessWidget {
   const Login({super.key});
@@ -34,9 +38,31 @@ class Login extends StatelessWidget {
     usernameController.text = user.username;
     passwordController.text = user.password;
     user.autoLogin0 = Utils.storage.getBool('autoLogin') ?? false;
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       if (user.autoLogin && user.username.isNotEmpty && user.password.isNotEmpty) {
-        login(user, url);
+        final connectivityResult = await (Connectivity().checkConnectivity());
+        if (!_isLogged && connectivityResult != ConnectivityResult.none && connectivityResult != ConnectivityResult.mobile) {
+          login(user, url).then((value) {
+            if (value) {
+              _isLogged = true;
+            }
+          });
+        } else {
+          user.loginStatus = '请切换为需要认证的网络';
+          _subscription = Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
+            Utils.logger.i('状态改变 ${result.name}');
+            if (result != ConnectivityResult.none && result != ConnectivityResult.mobile) {
+              user.loginStatus = '';
+              if (!_isLogged) {
+                login(user, url).then((value) {
+                  if (value) {
+                    _isLogged = true;
+                  }
+                });
+              }
+            }
+          });
+        }
       }
     });
     return Container(
@@ -173,8 +199,13 @@ class Login extends StatelessWidget {
               Selector<UserProvider, Tuple3<String, String, bool>>(
                 builder: (context, value, child) => ElevatedButton(
                   onPressed: value.item1.isNotEmpty && value.item2.isNotEmpty && value.item3
-                      ? () {
-                          login(user, url);
+                      ? () async {
+                          final connectivityResult = await (Connectivity().checkConnectivity());
+                          if (connectivityResult != ConnectivityResult.none && connectivityResult != ConnectivityResult.mobile) {
+                            login(user, url);
+                          } else {
+                            Utils.showToast('请切换为需要认证的网络');
+                          }
                         }
                       : null,
                   child: const Text('登录'),
@@ -196,14 +227,20 @@ class Login extends StatelessWidget {
               ),
             ],
           ),
+          Selector<UserProvider, String>(
+            builder: (context, value, child) => value.isEmpty ? const SizedBox() : Text(value),
+            selector: (p0, p1) => p1.loginStatus,
+          )
         ],
       ),
     );
   }
 
-  login(UserProvider user, String url) {
+  Future<bool> login(UserProvider user, String url) {
     final hide = BotToast.showLoading();
     final uri = Uri.parse(url);
+    final com = Completer<bool>();
+    user.loginStatus = '登录中...';
     user.srun = SRun(user.username, user.password, ac_id: uri.queryParameters['ac_id'] ?? '4')
       ..login().then((value) {
         hide();
@@ -211,9 +248,20 @@ class Login extends StatelessWidget {
           user.isLogin = true;
           user.result = value;
           user.saveAccount();
+          user.loginStatus = '';
+          _subscription?.cancel();
+          user.loginStatus = '';
+          com.complete(true);
         } else {
+          user.loginStatus = '登录失败';
           Utils.showToast(value.message);
+          com.complete(false);
         }
+      }, onError: (err) {
+        hide();
+        user.loginStatus = err?.message ?? 'error';
+        com.complete(false);
       });
+    return com.future;
   }
 }

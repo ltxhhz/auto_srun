@@ -9,9 +9,23 @@ class UserProvider extends ChangeNotifier {
   String _url = '';
   String get url => _url;
 
-  bool isLogin = false;
+  bool _isLogin = false;
+  bool get isLogin => _isLogin;
+
+  set isLogin(bool e) {
+    _isLogin = e;
+    notifyListeners();
+  }
+
   late SRun srun;
   String ip = '';
+  String _loginStatus = '';
+  String get loginStatus => _loginStatus;
+
+  set loginStatus(String e) {
+    _loginStatus = e;
+    notifyListeners();
+  }
 
   Result? _result;
   Result? get result => _result;
