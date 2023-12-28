@@ -51,8 +51,8 @@
 
 ## 📺 界面预览
 
-![1](./image/1.jpg)
-![2](./image/2.jpg)
+<img src="./image/1.jpg" width="300px"/>
+<img src="./image/2.jpg" width="300px"/>
 
 <!-- ## 🤝 贡献者
 
